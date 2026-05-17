@@ -73,7 +73,7 @@ class BmltClient
     {
         $query = array_merge(['switcher' => $switcher, 'format' => 'json'], $this->flatten($params));
 
-        $response = $this->http()->get($this->rootUrl . '/client_interface/json/', $query);
+        $response = $this->http()->get($this->rootUrl.'/client_interface/json/', $query);
 
         if ($response->failed()) {
             throw new BmltException(sprintf(

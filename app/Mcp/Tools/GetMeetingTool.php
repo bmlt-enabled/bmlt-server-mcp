@@ -44,7 +44,7 @@ class GetMeetingTool extends Tool
         $meeting = $results[0] ?? null;
 
         if ($meeting === null) {
-            return Response::error("No meeting found with id {$validated['id']} on " . $client->rootUrl());
+            return Response::error("No meeting found with id {$validated['id']} on ".$client->rootUrl());
         }
 
         return Response::json([

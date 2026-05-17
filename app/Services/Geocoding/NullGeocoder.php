@@ -8,8 +8,8 @@ class NullGeocoder implements Geocoder
     {
         throw new GeocodingException(
             'Server-side geocoding is disabled (GEOCODER=null). '
-            . 'Pass lat/lng coordinates instead of an address, '
-            . 'or configure the nominatim or google geocoder driver.'
+            .'Pass lat/lng coordinates instead of an address, '
+            .'or configure the nominatim or google geocoder driver.'
         );
     }
 

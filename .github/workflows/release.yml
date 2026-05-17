@@ -1,0 +1,65 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    name: build + publish archive
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: composer install (no-dev, optimized)
+        run: composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      - name: stamp version
+        id: tag
+        run: echo "ref=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: build archive
+        run: |
+          ARCHIVE="bmlt-server-mcp-${{ steps.tag.outputs.ref }}.zip"
+          echo "ARCHIVE=$ARCHIVE" >> "$GITHUB_ENV"
+          # Exclude dev-only files; include vendor/ so users can extract and run.
+          zip -r "$ARCHIVE" . \
+            -x '.git/*' \
+            -x '.github/*' \
+            -x 'tests/*' \
+            -x 'node_modules/*' \
+            -x 'storage/logs/*' \
+            -x 'storage/framework/cache/data/*' \
+            -x 'storage/framework/sessions/*' \
+            -x 'storage/framework/views/*' \
+            -x 'storage/framework/testing/*' \
+            -x '.env' \
+            -x '.env.*' \
+            -x 'phpunit.xml' \
+            -x 'pint.json' \
+            -x '.editorconfig' \
+            -x '.gitattributes' \
+            -x '.gitignore'
+          # Keep the example so users have a template
+          zip "$ARCHIVE" .env.example
+          ls -lh "$ARCHIVE"
+          sha256sum "$ARCHIVE" > "$ARCHIVE.sha256"
+
+      - name: github release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.ARCHIVE }}
+            ${{ env.ARCHIVE }}.sha256
+          generate_release_notes: true
+          fail_on_unmatched_files: true

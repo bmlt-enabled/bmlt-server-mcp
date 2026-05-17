@@ -52,7 +52,7 @@ class BmltClientFactory
         if (! in_array($requested, $allowlist, true)) {
             throw new BmltException(
                 "root_server_url '{$requested}' is not in BMLT_ALLOWED_ROOTS. "
-                . 'Add it to the allowlist or set BMLT_ALLOW_ANY_ROOT=true.'
+                .'Add it to the allowlist or set BMLT_ALLOW_ANY_ROOT=true.'
             );
         }
 

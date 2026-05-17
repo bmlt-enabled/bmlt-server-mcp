@@ -29,7 +29,7 @@ class GoogleGeocoder implements Geocoder
             return null;
         }
 
-        $key = 'geocode:google:' . sha1($address);
+        $key = 'geocode:google:'.sha1($address);
         $cached = $this->cache->get($key);
         if ($cached !== null) {
             return $cached === '__miss__' ? null : $this->hydrate($cached);

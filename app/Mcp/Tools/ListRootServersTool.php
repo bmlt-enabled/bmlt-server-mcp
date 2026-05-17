@@ -18,7 +18,7 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[Title('List known BMLT root servers')]
 #[Description(
     'List public BMLT root servers known to the BMLT aggregator. Use the returned '
-    . 'root_server_url values with other tools to query a specific server.'
+    .'root_server_url values with other tools to query a specific server.'
 )]
 #[IsReadOnly]
 #[IsIdempotent]
@@ -27,7 +27,7 @@ class ListRootServersTool extends Tool
     public function handle(Request $request, Config $config): Response
     {
         $aggregator = rtrim((string) $config->get('bmlt.aggregator_url'), '/');
-        $endpoint = $aggregator . '/api/v1/rootservers';
+        $endpoint = $aggregator.'/api/v1/rootservers';
 
         $response = Http::withHeaders([
             'User-Agent' => (string) $config->get('bmlt.http.user_agent'),

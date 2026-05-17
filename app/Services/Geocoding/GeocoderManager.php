@@ -30,7 +30,7 @@ class GeocoderManager
         $ttl = (int) $this->config->get('bmlt.geocoder.cache_ttl', 86400);
 
         return match ($name) {
-            'null', 'none', '' => new NullGeocoder(),
+            'null', 'none', '' => new NullGeocoder,
             'nominatim' => new NominatimGeocoder(
                 $this->config->get('bmlt.geocoder.drivers.nominatim'),
                 $this->cache,

@@ -23,7 +23,7 @@ class NominatimGeocoder implements Geocoder
             return null;
         }
 
-        $key = 'geocode:nominatim:' . sha1($address);
+        $key = 'geocode:nominatim:'.sha1($address);
 
         $cached = $this->cache->get($key);
         if ($cached !== null) {

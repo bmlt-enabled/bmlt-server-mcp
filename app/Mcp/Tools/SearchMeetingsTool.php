@@ -20,10 +20,10 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[Name('search_meetings')]
 #[Title('Search Narcotics Anonymous meetings')]
 #[Description(
-    "Search Narcotics Anonymous meetings on a BMLT root server. Filter by location "
-    . "(address or lat/lng + radius), weekday, time of day, format, venue type "
-    . "(in-person / virtual / hybrid), and service body. Returns a trimmed summary "
-    . "by default; pass data_format='full' for the raw BMLT response."
+    'Search Narcotics Anonymous meetings on a BMLT root server. Filter by location '
+    .'(address or lat/lng + radius), weekday, time of day, format, venue type '
+    .'(in-person / virtual / hybrid), and service body. Returns a trimmed summary '
+    ."by default; pass data_format='full' for the raw BMLT response."
 )]
 #[IsReadOnly]
 #[IsIdempotent]

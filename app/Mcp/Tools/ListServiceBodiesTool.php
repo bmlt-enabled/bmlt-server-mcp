@@ -19,7 +19,7 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[Title('List service bodies (regions / areas)')]
 #[Description(
     'List BMLT service bodies (zones, regions, areas, groups). Useful for translating '
-    . '"Northern California Region" to a service body ID for use with search_meetings.'
+    .'"Northern California Region" to a service body ID for use with search_meetings.'
 )]
 #[IsReadOnly]
 #[IsIdempotent]

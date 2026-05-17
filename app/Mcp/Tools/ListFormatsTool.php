@@ -19,7 +19,7 @@ use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
 #[Title('List meeting formats')]
 #[Description(
     'List available meeting formats (Open, Closed, Speaker, Beginners, language tags, etc.) '
-    . 'so the caller can map human-friendly format names to BMLT format IDs.'
+    .'so the caller can map human-friendly format names to BMLT format IDs.'
 )]
 #[IsReadOnly]
 #[IsIdempotent]
