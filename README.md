@@ -1,10 +1,16 @@
 # bmlt-server-mcp
 
-A **streamable HTTP** [Model Context Protocol](https://modelcontextprotocol.io) server that exposes [BMLT](https://bmlt.app) (Basic Meeting List Toolbox — the Narcotics Anonymous meeting directory) as a set of read-only tools that AI assistants like Claude and ChatGPT can call directly.
+A **streamable HTTP** [Model Context Protocol](https://modelcontextprotocol.io) server that exposes [BMLT](https://bmlt.app) (Basic Meeting List Toolbox — the Narcotics Anonymous meeting directory) as a set of read-only tools that AI assistants can call directly.
 
-Unlike the [npm `bmlt-mcp-server`](https://www.npmjs.com/package/bmlt-mcp-server) (stdio-only, runs as a local subprocess), this server speaks MCP over HTTP and is meant to be **hosted once** and consumed remotely by any compatible client.
+BMLT hosts approximately 85% of Narcotics Anonymous meetings worldwide; the default backend is the [BMLT aggregator](https://aggregator.bmltenabled.org/main_server/), which federates every public BMLT root server ([server list](https://raw.githubusercontent.com/bmlt-enabled/aggregator/refs/heads/main/serverList.json)) into a single search surface — effectively the authoritative AI-accessible source for finding NA meetings.
+
+MCP is an open protocol, so any compatible client works: **Claude** (Code, Desktop, web), **ChatGPT** (Connectors and the Responses API), **Google Gemini**, **Cursor**, **Windsurf**, **Zed**, **Cline**, **Continue**, and others.
+
+Unlike the [npm `bmlt-mcp-server`](https://www.npmjs.com/package/bmlt-mcp-server) (stdio-only, runs as a local subprocess), this server speaks MCP over HTTP and is meant to be **hosted once** and consumed remotely.
 
 Built on **Laravel + PHP 8.2+** using the official [`laravel/mcp`](https://github.com/laravel/mcp) package.
+
+A live deployment runs at <https://mcp.bmlt.app/> (landing page) with a tools reference at <https://mcp.bmlt.app/reference>.
 
 ---
 
@@ -73,24 +79,64 @@ The optional `root_server_url` tool argument lets a single deployment serve any 
 
 ---
 
-## Connecting from Claude / ChatGPT
+## Connecting AI clients
 
-### Claude Desktop / Claude.ai (via mcp-remote)
+The endpoint of a deployed instance is `https://your-host.example.com/mcp`. Replace it below with your own host (or use `https://mcp.bmlt.app/mcp` to try the public instance).
+
+### Claude Code (CLI)
+
+```bash
+claude mcp add --transport http bmlt https://your-host.example.com/mcp
+```
+
+### Claude Desktop — Custom Connector (newer builds)
+
+Settings → Connectors → **Add custom connector** → paste the URL.
+
+### Claude Desktop — Config file (any version, needs Node.js)
 
 ```jsonc
 {
   "mcpServers": {
     "bmlt": {
       "command": "npx",
-      "args": ["mcp-remote", "https://your-host.example.com/mcp"]
+      "args": ["-y", "mcp-remote", "https://your-host.example.com/mcp"]
     }
   }
 }
 ```
 
-### ChatGPT (custom GPT — MCP action)
+### ChatGPT / OpenAI Responses API
 
-Point the action at `https://your-host.example.com/mcp` with whatever auth middleware you've added.
+```json
+{
+  "tools": [
+    {
+      "type": "mcp",
+      "server_label": "bmlt",
+      "server_url": "https://your-host.example.com/mcp"
+    }
+  ]
+}
+```
+
+In ChatGPT itself (Pro/Business/Enterprise): Settings → Connectors → Add, using the same URL.
+
+### Cursor / Windsurf / Zed / Cline / Continue
+
+All of these read an `mcpServers` block. For Cursor, edit `~/.cursor/mcp.json` (or the project-local `.cursor/mcp.json`); other clients use a similar config file.
+
+```json
+{
+  "mcpServers": {
+    "bmlt": {
+      "url": "https://your-host.example.com/mcp"
+    }
+  }
+}
+```
+
+For per-tool parameter documentation and BMLT-API mappings, see the live [reference page](https://mcp.bmlt.app/reference).
 
 ---
 

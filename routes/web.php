@@ -18,3 +18,10 @@ Route::get('/', function () {
         'tools' => $tools,
     ]);
 });
+
+Route::get('/reference', function () {
+    return response()->view('reference', [
+        'mcpUrl' => url('/mcp'),
+        'rootServer' => (string) config('bmlt.root_server_url'),
+    ]);
+});

@@ -3,7 +3,116 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BMLT MCP — Connect Claude</title>
+<title>Find Narcotics Anonymous Meetings — BMLT MCP Server for AI Assistants</title>
+<meta name="description" content="Official BMLT-powered MCP server. Connect Claude, ChatGPT, Gemini, Cursor and other AI assistants to the worldwide Narcotics Anonymous meeting directory — the same dataset that powers most NA region and area websites.">
+<meta name="keywords" content="Narcotics Anonymous meeting finder, find NA meetings near me, NA meeting search, NA meetings tonight, BMLT, MCP server, Model Context Protocol, NA meeting directory, virtual NA meetings, online NA meetings">
+<link rel="canonical" href="{{ url('/') }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Find Narcotics Anonymous Meetings — BMLT MCP Server for AI Assistants">
+<meta property="og:description" content="Connect Claude, ChatGPT, Gemini, and other AI assistants to the official BMLT directory of worldwide Narcotics Anonymous meetings.">
+<meta property="og:url" content="{{ url('/') }}">
+<meta property="og:site_name" content="BMLT MCP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Find Narcotics Anonymous Meetings — BMLT MCP Server">
+<meta name="twitter:description" content="Official BMLT MCP server. Lets AI assistants search the worldwide NA meeting directory.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "BMLT MCP — NA Meeting Finder for AI Assistants",
+  "url": "{{ url('/') }}",
+  "description": "Official BMLT-powered MCP server exposing the worldwide Narcotics Anonymous meeting directory to AI assistants.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "BMLT (Basic Meeting List Toolbox)",
+    "url": "https://bmlt.app"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ url('/') }}?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BMLT MCP Server",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "description": "Read-only Model Context Protocol (MCP) server exposing the worldwide BMLT Narcotics Anonymous meeting directory to AI assistants such as Claude, ChatGPT, Gemini, Cursor, Windsurf, Zed, Cline, and Continue.",
+  "url": "{{ url('/') }}",
+  "downloadUrl": "https://github.com/bmlt-enabled/bmlt-server-mcp",
+  "softwareHelp": "{{ url('/reference') }}",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": {
+    "@type": "Organization",
+    "name": "BMLT (Basic Meeting List Toolbox)",
+    "url": "https://bmlt.app"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I find Narcotics Anonymous meetings near me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ask any MCP-connected AI assistant (Claude, ChatGPT, Gemini, Cursor, and others) something like 'find an NA meeting near 1600 Pennsylvania Ave tonight' or 'what virtual NA speaker meetings happen Sunday mornings?'. The assistant calls this server, which queries the BMLT aggregator and returns live meeting data from the worldwide Narcotics Anonymous directory."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the official Narcotics Anonymous meeting list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This server queries BMLT (Basic Meeting List Toolbox), the open-source platform that hosts approximately 85% of Narcotics Anonymous meetings worldwide. NA service bodies — regions, areas, and groups — publish their meeting data to BMLT root servers, and the BMLT aggregator federates every public root server into a single search surface. This is the same authoritative dataset that powers most NA region and area websites."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which AI assistants can use this server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any client that supports the Model Context Protocol (MCP) over HTTP — including Claude (Code, Desktop, web), ChatGPT (Connectors and the Responses API), Google Gemini, Cursor, Windsurf, Zed, Cline, Continue, and others."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is MCP (Model Context Protocol)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MCP is an open standard for connecting AI assistants to external data sources and tools. It is vendor-neutral — published by Anthropic but adopted by OpenAI, Google, and the wider ecosystem."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I find virtual or online NA meetings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Filter by venue_type (1=in-person, 2=virtual, 3=hybrid) or just ask the assistant for 'virtual NA meetings' or 'online NA meetings tonight'. Virtual meeting links and phone numbers are returned when available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this server free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — free and open-source. Source code is on GitHub at bmlt-enabled/bmlt-server-mcp."
+      }
+    }
+  ]
+}
+</script>
 <style>
     :root {
         color-scheme: light dark;
@@ -127,23 +236,83 @@
         color: var(--muted);
         margin: 1rem 0;
     }
+    .header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    .header .gh {
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        padding: .35rem;
+        border-radius: 6px;
+        transition: color .15s;
+    }
+    .header .gh:hover { color: var(--fg); text-decoration: none; }
+    .header .gh svg { display: block; }
+    .clients {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .35rem;
+        margin: .25rem 0 1.25rem;
+    }
+    .clients span {
+        background: var(--code-bg);
+        color: var(--muted);
+        padding: 2px 9px;
+        border-radius: 999px;
+        font-size: .78rem;
+        font-weight: 500;
+    }
 </style>
 </head>
 <body>
 
-<h1>BMLT MCP <span class="pill">alive</span></h1>
-<p class="lead">Talk to BMLT meeting data directly from Claude.</p>
+<div class="header">
+    <div>
+        <h1>Find Narcotics Anonymous Meetings <span class="pill">live</span></h1>
+        <p class="lead">The authoritative NA meeting directory for AI assistants — Claude, ChatGPT, Gemini, Cursor, and any MCP-compatible client.</p>
+    </div>
+    <a class="gh" href="https://github.com/bmlt-enabled/bmlt-server-mcp" target="_blank" rel="noopener" aria-label="View source on GitHub" title="View source on GitHub">
+        <svg height="28" width="28" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+    </a>
+</div>
+<div class="clients">
+    <span>Claude</span>
+    <span>ChatGPT</span>
+    <span>Gemini</span>
+    <span>Cursor</span>
+    <span>Windsurf</span>
+    <span>Zed</span>
+    <span>Cline</span>
+    <span>Continue</span>
+</div>
 
-<h2>What this is</h2>
+<h2>The official source for AI-powered NA meeting search</h2>
 <p>
-    This site exposes a read-only <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a>
-    (Model Context Protocol) server that lets Claude query a
-    <a href="https://bmlt.app" target="_blank" rel="noopener">BMLT</a> root server
-    — the directory of Narcotics Anonymous meetings —
-    directly. Once connected, you can ask things like
-    <em>"find an open NA meeting tonight near 1600 Pennsylvania Ave"</em> or
-    <em>"what virtual speaker meetings happen on Sunday mornings?"</em>
-    and Claude will answer using live data from this BMLT root server.
+    This is a read-only <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a>
+    (Model Context Protocol) server that connects any AI assistant to the worldwide
+    Narcotics Anonymous meeting directory. Ask in plain English —
+    <em>"find an open NA meeting tonight near 1600 Pennsylvania Ave"</em>,
+    <em>"what virtual NA speaker meetings happen Sunday mornings?"</em>, or
+    <em>"Spanish-language NA meetings in Los Angeles"</em> — and your AI answers with live data.
+</p>
+
+<h3>Same dataset most NA websites already use</h3>
+<p>
+    Behind the scenes this calls <a href="https://bmlt.app" target="_blank" rel="noopener">BMLT</a>
+    (the Basic Meeting List Toolbox), the open-source platform that hosts approximately
+    <strong>85% of Narcotics Anonymous meetings worldwide</strong>.
+    NA regions, areas, and groups publish their meeting lists to BMLT root servers, and the
+    <a href="https://aggregator.bmltenabled.org/main_server/" target="_blank" rel="noopener">BMLT aggregator</a>
+    federates every public root server
+    (<a href="https://raw.githubusercontent.com/bmlt-enabled/aggregator/refs/heads/main/serverList.json" target="_blank" rel="noopener">full list</a>)
+    into a single search surface — effectively one giant meeting list covering NA worldwide.
+    It is the same authoritative dataset that powers most NA region and area websites today.
 </p>
 
 <h3>MCP endpoint</h3>
@@ -164,7 +333,7 @@
 
 <hr>
 
-<h2>Option 1: Custom Connector (recommended)</h2>
+<h2>Claude Desktop — Custom Connector (recommended)</h2>
 <p>
     Newer versions of Claude Desktop can connect to remote MCP servers natively
     — no Node.js required.
@@ -184,10 +353,10 @@
 </ol>
 <div class="callout">
     If you don't see <strong>Add custom connector</strong>, your Claude Desktop is older than the feature requires.
-    Update it, or use Option&nbsp;2.
+    Update it, or use the config-file method below.
 </div>
 
-<h2>Option 2: Config file</h2>
+<h2>Claude Desktop — Config file</h2>
 <p>Works on every Claude Desktop version. Requires Node.js.</p>
 <ol>
     <li>
@@ -214,10 +383,48 @@
   }
 }</code></pre>
 
-<h2>Bonus: Claude Code (CLI)</h2>
-<p>If you use Claude Code, native HTTP transport is built in:</p>
+<h2>Claude Code (CLI)</h2>
+<p>Native HTTP transport — one command:</p>
 <pre><code>claude mcp add --transport http bmlt {{ $mcpUrl }}</code></pre>
 <p>Then run <code>/mcp</code> inside a Claude Code session to confirm the connection.</p>
+
+<h2>ChatGPT / OpenAI Responses API</h2>
+<p>
+    Add it as a tool in any Responses API call. In ChatGPT itself (Pro/Business/Enterprise),
+    add it under <strong>Settings → Connectors → Add</strong> using the endpoint above.
+</p>
+<pre><code>{
+  "model": "gpt-5",
+  "tools": [
+    {
+      "type": "mcp",
+      "server_label": "bmlt",
+      "server_url": "{{ $mcpUrl }}"
+    }
+  ],
+  "input": "Find an open NA meeting tonight near Boston."
+}</code></pre>
+
+<h2>Cursor / Windsurf / Zed / Cline / Continue</h2>
+<p>
+    All read an <code>mcpServers</code> block. For Cursor, edit
+    <code>~/.cursor/mcp.json</code> (or the project-local <code>.cursor/mcp.json</code>);
+    other clients use a similar file in their config directory.
+</p>
+<pre><code>{
+  "mcpServers": {
+    "bmlt": {
+      "url": "{{ $mcpUrl }}"
+    }
+  }
+}</code></pre>
+
+<h2>Anything else</h2>
+<p>
+    Any MCP client that supports <strong>HTTP transport</strong> can connect.
+    Point it at:
+</p>
+<div class="endpoint"><code>{{ $mcpUrl }}</code></div>
 
 <h2>Try it out</h2>
 <p>Once connected, ask Claude things like:</p>
@@ -229,9 +436,57 @@
     <li><em>"Show me details for meeting id 12345."</em></li>
 </ul>
 
+<h2>Frequently asked questions</h2>
+
+<h3>How do I find Narcotics Anonymous meetings near me?</h3>
+<p>
+    Connect any MCP-compatible AI assistant using the instructions above, then ask in plain
+    English — e.g. <em>"find an NA meeting near 1600 Pennsylvania Ave tonight"</em> or
+    <em>"virtual NA speaker meetings on Sunday mornings"</em>. The assistant calls this server,
+    which queries the BMLT aggregator and returns live data from the worldwide NA meeting list.
+</p>
+
+<h3>Is this the official Narcotics Anonymous meeting list?</h3>
+<p>
+    This server queries <a href="https://bmlt.app" target="_blank" rel="noopener">BMLT</a>,
+    the open-source meeting-list platform that hosts roughly 85% of NA meetings worldwide.
+    The default backend is the BMLT aggregator, which federates every public BMLT root server
+    used by NA regions and areas. It is the same dataset that powers most NA region and area
+    websites today.
+</p>
+
+<h3>Which AI assistants work with this?</h3>
+<p>
+    Any client that supports the Model Context Protocol over HTTP — Claude (Code, Desktop, web),
+    ChatGPT (Connectors and the Responses API), Google Gemini, Cursor, Windsurf, Zed, Cline,
+    Continue, and others. MCP is an open standard, not Claude-specific.
+</p>
+
+<h3>Can I find virtual or online NA meetings?</h3>
+<p>
+    Yes. Ask for <em>"virtual NA meetings"</em>, <em>"online NA meetings tonight"</em>, or filter
+    by venue type (1=in-person, 2=virtual, 3=hybrid). Virtual meeting links and phone numbers are
+    returned when the originating BMLT root server publishes them.
+</p>
+
+<h3>Is this server free?</h3>
+<p>
+    Yes — free and open-source under
+    <a href="https://github.com/bmlt-enabled/bmlt-server-mcp" target="_blank" rel="noopener">bmlt-enabled/bmlt-server-mcp</a>.
+    No account or API key required.
+</p>
+
+<h3>Where's the technical reference?</h3>
+<p>
+    See the <a href="{{ url('/reference') }}">tools reference</a> for every parameter and its
+    BMLT-API mapping, or the <a href="https://github.com/bmlt-enabled/bmlt-server-mcp" target="_blank" rel="noopener">repository</a>
+    for source and deployment notes.
+</p>
+
 <footer>
     BMLT MCP Server &middot;
     <a href="https://github.com/bmlt-enabled/bmlt-server-mcp" target="_blank" rel="noopener">source</a>
+    &middot; <a href="{{ url('/reference') }}">tools reference</a>
     &middot; built on <a href="https://github.com/laravel/mcp" target="_blank" rel="noopener">laravel/mcp</a>
 </footer>
 
