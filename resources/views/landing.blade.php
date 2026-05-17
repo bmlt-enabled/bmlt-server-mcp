@@ -18,20 +18,20 @@
 
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
+  "@@context": "https://schema.org",
+  "@@type": "WebSite",
   "name": "BMLT MCP — NA Meeting Finder for AI Assistants",
   "url": "{{ url('/') }}",
   "description": "Official BMLT-powered MCP server exposing the worldwide Narcotics Anonymous meeting directory to AI assistants.",
   "publisher": {
-    "@type": "Organization",
+    "@@type": "Organization",
     "name": "BMLT (Basic Meeting List Toolbox)",
     "url": "https://bmlt.app"
   },
   "potentialAction": {
-    "@type": "SearchAction",
+    "@@type": "SearchAction",
     "target": {
-      "@type": "EntryPoint",
+      "@@type": "EntryPoint",
       "urlTemplate": "{{ url('/') }}?q={search_term_string}"
     },
     "query-input": "required name=search_term_string"
@@ -40,8 +40,8 @@
 </script>
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@@context": "https://schema.org",
+  "@@type": "SoftwareApplication",
   "name": "BMLT MCP Server",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Any",
@@ -49,9 +49,9 @@
   "url": "{{ url('/') }}",
   "downloadUrl": "https://github.com/bmlt-enabled/bmlt-server-mcp",
   "softwareHelp": "{{ url('/reference') }}",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "author": {
-    "@type": "Organization",
+    "@@type": "Organization",
     "name": "BMLT (Basic Meeting List Toolbox)",
     "url": "https://bmlt.app"
   }
@@ -59,54 +59,54 @@
 </script>
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
+  "@@context": "https://schema.org",
+  "@@type": "FAQPage",
   "mainEntity": [
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "How do I find Narcotics Anonymous meetings near me?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "Ask any MCP-connected AI assistant (Claude, ChatGPT, Gemini, Cursor, and others) something like 'find an NA meeting near 1600 Pennsylvania Ave tonight' or 'what virtual NA speaker meetings happen Sunday mornings?'. The assistant calls this server, which queries the BMLT aggregator and returns live meeting data from the worldwide Narcotics Anonymous directory."
       }
     },
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "Is this the official Narcotics Anonymous meeting list?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "This server queries BMLT (Basic Meeting List Toolbox), the open-source platform that hosts approximately 85% of Narcotics Anonymous meetings worldwide. NA service bodies — regions, areas, and groups — publish their meeting data to BMLT root servers, and the BMLT aggregator federates every public root server into a single search surface. This is the same authoritative dataset that powers most NA region and area websites."
       }
     },
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "Which AI assistants can use this server?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "Any client that supports the Model Context Protocol (MCP) over HTTP — including Claude (Code, Desktop, web), ChatGPT (Connectors and the Responses API), Google Gemini, Cursor, Windsurf, Zed, Cline, Continue, and others."
       }
     },
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "What is MCP (Model Context Protocol)?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "MCP is an open standard for connecting AI assistants to external data sources and tools. It is vendor-neutral — published by Anthropic but adopted by OpenAI, Google, and the wider ecosystem."
       }
     },
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "Can I find virtual or online NA meetings?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "Yes. Filter by venue_type (1=in-person, 2=virtual, 3=hybrid) or just ask the assistant for 'virtual NA meetings' or 'online NA meetings tonight'. Virtual meeting links and phone numbers are returned when available."
       }
     },
     {
-      "@type": "Question",
+      "@@type": "Question",
       "name": "Is this server free to use?",
       "acceptedAnswer": {
-        "@type": "Answer",
+        "@@type": "Answer",
         "text": "Yes — free and open-source. Source code is on GitHub at bmlt-enabled/bmlt-server-mcp."
       }
     }
