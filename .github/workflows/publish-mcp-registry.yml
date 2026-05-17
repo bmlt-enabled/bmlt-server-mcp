@@ -1,0 +1,50 @@
+name: publish to mcp registry
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 0.2.0). Required for workflow_dispatch.'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    name: publish server.json
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: resolve version
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Publishing version: $VERSION"
+
+      - name: stamp server.json version
+        run: |
+          jq --arg v "${{ steps.ver.outputs.version }}" '.version = $v' server.json > server.json.tmp
+          mv server.json.tmp server.json
+          cat server.json
+
+      - name: install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" \
+            | tar xz mcp-publisher
+
+      - name: authenticate (github oidc)
+        run: ./mcp-publisher login github-oidc
+
+      - name: publish
+        run: ./mcp-publisher publish
