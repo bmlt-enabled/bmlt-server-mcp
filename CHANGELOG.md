@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `search_meetings`: new `radius_km` parameter. When set, takes precedence over
+  `radius_miles` and maps to BMLT's `geo_width_km`.
+- Documentation now links to the upstream
+  [BMLT Semantic OpenAPI document](https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json)
+  from both the README architecture section and the `/reference` page.
+
 ## [0.2.0] - 2026-05-17
 
 ### Added

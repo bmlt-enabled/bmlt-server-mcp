@@ -76,7 +76,12 @@ class SearchMeetingsTool extends Tool
         if ($lat !== null && $lng !== null) {
             $params['lat_val'] = $lat;
             $params['long_val'] = $lng;
-            $params['geo_width'] = (float) $request->get('radius_miles', 10);
+            $radiusKm = $request->get('radius_km');
+            if ($radiusKm !== null) {
+                $params['geo_width_km'] = (float) $radiusKm;
+            } else {
+                $params['geo_width'] = (float) $request->get('radius_miles', 10);
+            }
             $params['sort_results_by_distance'] = 1;
         }
 
@@ -139,8 +144,11 @@ class SearchMeetingsTool extends Tool
                 ->description('Longitude in decimal degrees. Pair with latitude for an exact-coordinate search.'),
 
             'radius_miles' => $schema->number()
-                ->description('Search radius in miles. Defaults to 10. Ignored when no coordinates are provided.')
+                ->description('Search radius in miles. Defaults to 10. Ignored if radius_km is provided or no coordinates are given.')
                 ->default(10),
+
+            'radius_km' => $schema->number()
+                ->description('Search radius in kilometers. Takes precedence over radius_miles when both are provided. Ignored when no coordinates are provided.'),
 
             'weekdays' => $schema->array()
                 ->items($schema->integer())

@@ -190,6 +190,11 @@ config/bmlt.php                          # All knobs
 routes/ai.php                            # Mcp::web('/mcp', BmltServer::class)
 ```
 
+The HTTP API wrapped by `BmltClient` is formally specified by the
+[BMLT Semantic OpenAPI document](https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json)
+(OpenAPI 3.1) — refer to it for every parameter, response shape, and field definition
+that BMLT itself supports, even if this MCP server doesn't yet expose it as a tool argument.
+
 ---
 
 ## License

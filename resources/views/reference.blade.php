@@ -99,7 +99,9 @@
 <p class="lead">
     Every tool exposed by this MCP server, with parameters, types, defaults, and how each
     maps to the underlying <a href="https://bmlt.app/semantic/" target="_blank" rel="noopener">BMLT
-    Semantic Search API</a>.
+    Semantic Search API</a> — formally specified by the
+    <a href="https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json" target="_blank" rel="noopener">BMLT Semantic OpenAPI document</a>
+    (OpenAPI 3.1).
 </p>
 
 <h2>Endpoint</h2>
@@ -143,7 +145,8 @@
         <tr><td class="name">address</td><td class="type">string</td><td>—</td><td>Free-form address; geocoded server-side. Ignored if lat/lng are provided.</td></tr>
         <tr><td class="name">latitude</td><td class="type">number</td><td>—</td><td>Decimal degrees. Pair with longitude.</td></tr>
         <tr><td class="name">longitude</td><td class="type">number</td><td>—</td><td>Decimal degrees. Pair with latitude.</td></tr>
-        <tr><td class="name">radius_miles</td><td class="type">number</td><td>10</td><td>Search radius. Ignored without coordinates.</td></tr>
+        <tr><td class="name">radius_miles</td><td class="type">number</td><td>10</td><td>Search radius in miles. Ignored if <code>radius_km</code> is set or no coordinates are provided.</td></tr>
+        <tr><td class="name">radius_km</td><td class="type">number</td><td>—</td><td>Search radius in kilometers. Takes precedence over <code>radius_miles</code>.</td></tr>
         <tr><td class="name">weekdays</td><td class="type">int[]</td><td>—</td><td>1=Sun, 2=Mon, &hellip;, 7=Sat. e.g. <code>[2,4,6]</code>.</td></tr>
         <tr><td class="name">starts_after</td><td class="type">"HH:MM"</td><td>—</td><td>Earliest start time, 24-hour.</td></tr>
         <tr><td class="name">starts_before</td><td class="type">"HH:MM"</td><td>—</td><td>Latest start time, 24-hour.</td></tr>
@@ -171,6 +174,7 @@
         <tr><td class="name">latitude</td><td class="name">lat_val</td></tr>
         <tr><td class="name">longitude</td><td class="name">long_val</td></tr>
         <tr><td class="name">radius_miles</td><td class="name">geo_width</td></tr>
+        <tr><td class="name">radius_km</td><td class="name">geo_width_km</td></tr>
         <tr><td class="name">weekdays</td><td class="name">weekdays[]</td></tr>
         <tr><td class="name">format_ids</td><td class="name">formats[]</td></tr>
         <tr><td class="name">venue_types</td><td class="name">venue_types[]</td></tr>
@@ -252,7 +256,8 @@ comments, service_body_bigint</code></pre>
 
 <h2>Useful references</h2>
 <ul>
-    <li><a href="https://bmlt.app/semantic/" target="_blank" rel="noopener">BMLT Semantic Search API</a> — underlying HTTP API.</li>
+    <li><a href="https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json" target="_blank" rel="noopener">BMLT Semantic OpenAPI (3.1)</a> — formal spec for every BMLT endpoint, parameter, and response field.</li>
+    <li><a href="https://bmlt.app/semantic/" target="_blank" rel="noopener">BMLT Semantic Search API docs</a> — human-readable companion to the OpenAPI.</li>
     <li><a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">Model Context Protocol</a> — open spec for AI tool connections.</li>
     <li><a href="https://github.com/bmlt-enabled/bmlt-server-mcp" target="_blank" rel="noopener">bmlt-enabled/bmlt-server-mcp</a> — this server's source.</li>
     <li><a href="https://github.com/bmlt-enabled/bmlt-skill" target="_blank" rel="noopener">bmlt-enabled/bmlt-skill</a> — companion Claude Skill with adjacent reference docs.</li>
