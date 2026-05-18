@@ -14,7 +14,7 @@ use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Attributes\Version;
 
 #[Name('BMLT Meeting Search')]
-#[Version('0.1.0')]
+#[Version('0.2.0')]
 #[Instructions(<<<'TXT'
 This server exposes read-only access to the Basic Meeting List Toolbox (BMLT) — the
 directory of Narcotics Anonymous meetings. Tools query a configured BMLT root

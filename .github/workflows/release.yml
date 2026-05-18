@@ -26,7 +26,12 @@ jobs:
 
       - name: stamp version
         id: tag
-        run: echo "ref=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "ref=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          VERSION="${GITHUB_REF_NAME#v}"
+          # Keep the MCP server's reported version in sync with the tag.
+          sed -i -E "s/#\[Version\('[^']*'\)\]/#[Version('${VERSION}')]/" app/Mcp/Servers/BmltServer.php
+          grep -n '#\[Version' app/Mcp/Servers/BmltServer.php
 
       - name: build archive
         run: |

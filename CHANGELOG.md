@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [BMLT Semantic OpenAPI document](https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json)
   from both the README architecture section and the `/reference` page.
 
+### Fixed
+- MCP server was reporting `version: 0.1.0` to clients on `initialize` because
+  the `#[Version]` attribute on `BmltServer` wasn't bumped during the 0.2.0
+  release. The release workflow now stamps it from the tag automatically so
+  this can't drift again.
+
 ## [0.2.0] - 2026-05-17
 
 ### Added
