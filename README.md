@@ -136,7 +136,7 @@ All of these read an `mcpServers` block. For Cursor, edit `~/.cursor/mcp.json` (
 }
 ```
 
-For per-tool parameter documentation and BMLT-API mappings, see the live [reference page](https://mcp.bmlt.app/reference).
+For per-tool parameter documentation and BMLT-API mappings, see the live [reference page](https://mcp.bmlt.app/reference). For day-to-day commands on a deployed instance (log tailing, usage summaries, cache clears, upgrades), see [docs/operations.md](docs/operations.md).
 
 ---
 

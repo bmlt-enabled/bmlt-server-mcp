@@ -61,6 +61,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | MCP Access Log
+    |--------------------------------------------------------------------------
+    |
+    | A per-request access log for /mcp, written to its own Monolog channel
+    | so it stays separate from error logs. By default only metadata is
+    | recorded (caller IP, User-Agent, JSON-RPC method, tool name, status,
+    | latency). Set MCP_LOG_BODY=true to also log the raw request body when
+    | debugging — turn it off again in normal operation, since the body
+    | contains user search terms.
+    |
+    */
+
+    'log_channel' => env('MCP_LOG_CHANNEL', 'mcp'),
+    'log_body' => filter_var(env('MCP_LOG_BODY', false), FILTER_VALIDATE_BOOLEAN),
+
+    /*
+    |--------------------------------------------------------------------------
     | Geocoding
     |--------------------------------------------------------------------------
     |

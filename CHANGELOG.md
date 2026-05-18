@@ -7,12 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-18
+
 ### Added
 - `search_meetings`: new `radius_km` parameter. When set, takes precedence over
   `radius_miles` and maps to BMLT's `geo_width_km`.
+- `/mcp` access log: per-request metadata (caller IP, User-Agent, JSON-RPC
+  method, tool name, status, latency) written to a dedicated rotated channel
+  at `storage/logs/mcp.log`. Request bodies are omitted by default; set
+  `MCP_LOG_BODY=true` to enable for debugging. Cloudflare / LiteSpeed proxy
+  headers (`cf-connecting-ip`, `x-forwarded-for`) are honored for the IP
+  field. New env vars: `MCP_LOG_CHANNEL`, `MCP_LOG_DAYS`, `MCP_LOG_BODY`.
+- `server.json` manifest and `.github/workflows/publish-mcp-registry.yml`
+  workflow for automated publication to the
+  [MCP Registry](https://github.com/modelcontextprotocol/registry) on tag
+  push, using GitHub OIDC (no secrets needed). Namespace:
+  `io.github.bmlt-enabled/bmlt-server-mcp`.
+- `AGENTS.md` — vendor-neutral guidance for AI coding agents working in the
+  repo (project layout, commands, conventions, release process, security
+  boundaries).
+- `docs/operations.md` — day-to-day operations runbook for deployed
+  instances: live log tailing, usage summaries (grep + jq one-liners),
+  cache clears, config tweaks, log rotation, endpoint inspection, release
+  upgrades, and health checks.
 - Documentation now links to the upstream
   [BMLT Semantic OpenAPI document](https://aggregator.bmltenabled.org/main_server/api/v1/openapi-semantic.json)
   from both the README architecture section and the `/reference` page.
+
+### Changed
+- `release.yml` workflow now stamps `app/Mcp/Servers/BmltServer.php`'s
+  `#[Version]` attribute from the git tag before building the release zip,
+  so the version reported to MCP clients on `initialize` can no longer drift
+  from the released tag.
 
 ### Fixed
 - MCP server was reporting `version: 0.1.0` to clients on `initialize` because
@@ -64,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Geocoding driver layer: Nominatim (default), Google, and Null.
 - Docker compose and Dockerfile for one-command deploys.
 
-[Unreleased]: https://github.com/bmlt-enabled/bmlt-server-mcp/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/bmlt-enabled/bmlt-server-mcp/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/bmlt-enabled/bmlt-server-mcp/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/bmlt-enabled/bmlt-server-mcp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/bmlt-enabled/bmlt-server-mcp/releases/tag/v0.1.0

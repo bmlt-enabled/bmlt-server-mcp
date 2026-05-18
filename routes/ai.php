@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Middleware\LogMcpRequests;
 use App\Mcp\Servers\BmltServer;
 use Illuminate\Support\Facades\Route;
 use Laravel\Mcp\Facades\Mcp;
 
 Mcp::web('/mcp', BmltServer::class)
-    ->middleware(['throttle:60,1']);
+    ->middleware(['throttle:60,1', LogMcpRequests::class]);
 
 // laravel/mcp registers GET /mcp as a hard 405 (per spec, standalone SSE is
 // optional). Override with a small JSON hint so browser GETs see something
